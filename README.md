@@ -20,52 +20,38 @@ Program to implement the Decision Tree Classifier Model for Predicting Employee 
 Developed by: Ramya L
 RegisterNumber:  212225040330
 import pandas as pd
-import numpy as np
-
+import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
-df = pd.read_csv("C:/Users/acer/Downloads/Employee.csv")
-df.head()
-df.info()
-df.isnull().sum()
-df.rename(columns={'Departments ': 'Department'}, inplace=True)
-df = pd.get_dummies(df, columns=['Department', 'salary'], drop_first=True)
-df.head()
-X = df.drop('left', axis=1)  
-y = df['left']  
+from sklearn.tree import DecisionTreeClassifier, plot_tree
+from sklearn.metrics import accuracy_score
+data = pd.read_csv("Employee.csv")
+data = pd.get_dummies(data, drop_first=True)
+X = data.iloc[:, :-1]
+y = data.iloc[:, -1]
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.2, random_state=42
 )
-dt_model = DecisionTreeClassifier(
-    criterion='gini',
-    max_depth=5,
-    random_state=42
-)
-dt_model.fit(X_train, y_train)
-y_pred = dt_model.predict(X_test)
-accuracy = accuracy_score(y_test, y_pred)
-print("Accuracy:", accuracy)
-confusion_matrix(y_test, y_pred)
-print(classification_report(y_test, y_pred))
-from sklearn.tree import plot_tree
-import matplotlib.pyplot as plt
-
+model = DecisionTreeClassifier(random_state=42)
+model.fit(X_train, y_train)
+y_pred = model.predict(X_test)
+print("Accuracy:", accuracy_score(y_test, y_pred))
 plt.figure(figsize=(20,10))
+
 plot_tree(
-    dt_model,
+    model,
     feature_names=X.columns,
-    class_names=['Stayed', 'Left'],
     filled=True
 )
+
 plt.show()
+
 */
 ```
 
 ## Output:
 ![decision tree classifier model](sam.png)
-<img width="582" height="587" alt="Screenshot 2026-05-13 090308" src="https://github.com/user-attachments/assets/cf74bd19-8227-48ca-8d12-546cde533a07" />
-<img width="1272" height="640" alt="Screenshot 2026-05-13 090337" src="https://github.com/user-attachments/assets/c83603eb-5a71-4533-855e-b6da933fa253" />
+<img width="1272" height="640" alt="Screenshot 2026-05-13 090337" src="https://github.com/user-attachments/assets/484013b5-d0a7-40b5-9d60-9b86ebcf8291" />
+
 
 
 ## Result:
